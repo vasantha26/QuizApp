@@ -84,6 +84,7 @@ class MainActivity : AppCompatActivity() {
                                 difficulty = question.difficulty,
                                 question = question.question,
                                 correctAnswer = question.correctAnswer,
+                                incorrectAnswers = question.incorrectAnswers
                             )
                         }
 

@@ -61,7 +61,7 @@ class PlayActivity : AppCompatActivity() {
 
                  textView4?.text = it.question
                  textView?.text = it.correctAnswer
-                 textView1?.text = getString(R.string.f)
+                 textView1?.text = it.incorrectAnswers.toString()
              }
         }
 
@@ -93,7 +93,7 @@ class PlayActivity : AppCompatActivity() {
                                 }
                                 textView4?.text =  getString(R.string.Ques) + {i + 1}  +  it1.question
                                 textView?.text = it1.correctAnswer
-                                textView1?.text = getString(R.string.f)
+                                textView1?.text = it1?.incorrectAnswers.toString()
 
                                 if (i == it.size.minus(1)) {
                                     button?.text = getString(R.string.finesh)

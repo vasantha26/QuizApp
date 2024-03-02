@@ -9,7 +9,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import kotlin.concurrent.Volatile
 
 
-@Database(entities = [Result::class], version = 3)
+@Database(entities = [Result::class], version = 4)
 abstract class AppDatabase : RoomDatabase() {
         abstract fun questionDao(): QuestionDao
 

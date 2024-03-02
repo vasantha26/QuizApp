@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="top"
+    android:orientation="vertical">
+
+
+
+    <TextView
+        android:id="@+id/tvNameResult"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/name"
+        android:gravity="center"
+        android:background="@color/white"
+        android:layout_marginTop="30sp"
+        android:textSize="18sp"
+        android:textColor="@color/black"
+        android:textStyle="bold">
+    </TextView>
+
+
+    <TextView
+        android:id="@+id/tvNameResult1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/idInt"
+        android:background="@color/white"
+        android:gravity="center"
+        android:layout_marginTop="30sp"
+        android:textSize="18sp"
+        android:textColor="@color/black"
+        android:textStyle="bold">
+    </TextView>
+
+    <TextView
+        android:id="@+id/tvNameResult2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="10/15"
+        android:background="@color/white"
+        android:gravity="center"
+        android:layout_marginTop="30sp"
+        android:textSize="30sp"
+        android:textColor="@color/black"
+        android:textStyle="bold">
+    </TextView>
+
+
+
+
+
+    <Button
+        android:id="@+id/btnFinishResult"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/finish"
+        android:layout_marginTop="100dp"
+        android:backgroundTint="@color/white"
+        android:textColor="#975AFF"
+        android:textSize="15sp"
+        android:layout_marginHorizontal="20dp">
+
+    </Button>
+
+</LinearLayout>

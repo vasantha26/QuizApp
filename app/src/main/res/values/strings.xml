@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">Quiz App</string>
+    <string name="quiz_app">Quiz App</string>
+    <string name="name">name</string>
+    <string name="registration_number">Registration Number</string>
+    <string name="start_quiz">Start Quiz</string>
+    <string name="next">Next</string>
+    <string name="f">False</string>
+    <string name="t">True</string>
+    <string name="correct_ans">Correct Ans :</string>
+    <string name="quot_27_club_quot_is_a_term_used_to_refer_to_a_list_of_famous_actors_musicians_and_artists_who_died_at_the_age_of_27">\"27 Club\" is a term used to refer to a list of famous actors, musicians, and artists who died at the age of 27.</string>
+
+
+
+    <string name="finesh">Finish</string>
+    <string name="Ques">Ques</string>
+
+
+    <string name="nameInt">name</string>
+    <string name="idInt">id</string>
+    <string name="totalInt">total</string>
+    <string name="resultInt">result</string>
+    <string name="SelectAnswerInt">Select Answer</string>
+    <string name="easy">easy</string>
+    <string name="b">boolean</string>
+    <string name="finish">FINISH</string>
+    <string name="time_00">Time - 00</string>
+
+
+</resources>

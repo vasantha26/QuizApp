@@ -7,7 +7,7 @@ import androidx.room.TypeConverters
 
 
 @Entity(tableName = "question_table")
-data class Result (
+data class Result(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,
     var type: String? = null,

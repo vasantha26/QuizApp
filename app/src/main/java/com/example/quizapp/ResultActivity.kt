@@ -8,11 +8,11 @@ import android.widget.TextView
 
 class ResultActivity : AppCompatActivity() {
 
-    private var button : Button ?= null
+    private var button: Button? = null
 
-    private var textView : TextView?= null
-    private var textView1 : TextView?= null
-    private var textView2 : TextView?= null
+    private var textView: TextView? = null
+    private var textView1: TextView? = null
+    private var textView2: TextView? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,9 +29,9 @@ class ResultActivity : AppCompatActivity() {
         val intent = intent
 
         val textName = intent.getStringExtra(applicationContext.getString(R.string.nameInt))
-        val textId =  intent.getStringExtra(applicationContext.getString(R.string.idInt))
-        val textResult =  intent.getStringExtra(applicationContext.getString(R.string.resultInt))
-        val textTotal =  intent.getStringExtra(applicationContext.getString(R.string.totalInt))
+        val textId = intent.getStringExtra(applicationContext.getString(R.string.idInt))
+        val textResult = intent.getStringExtra(applicationContext.getString(R.string.resultInt))
+        val textTotal = intent.getStringExtra(applicationContext.getString(R.string.totalInt))
 
         textView?.text = textName
         textView1?.text = textId
@@ -41,7 +41,7 @@ class ResultActivity : AppCompatActivity() {
 
 
         button?.setOnClickListener {
-            val intent = Intent(this@ResultActivity,MainActivity::class.java)
+            val intent = Intent(this@ResultActivity, MainActivity::class.java)
             startActivity(intent)
             finish()
         }

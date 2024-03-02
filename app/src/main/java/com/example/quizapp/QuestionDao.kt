@@ -8,7 +8,7 @@ import androidx.room.Query
 
 
 @Dao
-interface QuestionDao{
+interface QuestionDao {
 
     @Query("SELECT * FROM question_table")
     fun getAllQuestions(): LiveData<List<Result>>

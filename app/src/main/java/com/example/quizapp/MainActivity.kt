@@ -72,7 +72,12 @@ class MainActivity : AppCompatActivity() {
             .build()
         val api = retrofit.create(QuizApiService::class.java)
         GlobalScope.launch {
-            api.getQuestions(15, 9, applicationContext.getString(R.string.easy), applicationContext.getString(R.string.b)).enqueue(object :
+            api.getQuestions(
+                15,
+                9,
+                applicationContext.getString(R.string.easy),
+                applicationContext.getString(R.string.b)
+            ).enqueue(object :
                 Callback<QuizModel> {
                 override fun onResponse(call: Call<QuizModel>, response: Response<QuizModel>) {
                     Log.d("TAG", "  response >>>  " + Gson().toJson(response))

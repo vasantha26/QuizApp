@@ -15,18 +15,17 @@ import androidx.lifecycle.ViewModelProvider
 class PlayActivity : AppCompatActivity() {
 
     private lateinit var viewModel: QuizViewModel
-    var result : List<Result> ?= null
+    var result: List<Result>? = null
 
-    private var button : Button ?= null
+    private var button: Button? = null
 
-    private var raddio  :RadioGroup ?= null
+    private var raddio: RadioGroup? = null
 
-    private var textView : RadioButton ?= null
-    private var textView1 : RadioButton ?= null
-    private var textView4 : TextView ?= null
-    private var textView3 : TextView ?= null
-    private var textView5 : TextView ?= null
-
+    private var textView: RadioButton? = null
+    private var textView1: RadioButton? = null
+    private var textView4: TextView? = null
+    private var textView3: TextView? = null
+    private var textView5: TextView? = null
 
 
     @SuppressLint("MissingInflatedId")
@@ -39,7 +38,7 @@ class PlayActivity : AppCompatActivity() {
         val intent = intent
 
         val textName = intent.getStringExtra(applicationContext.getString(R.string.nameInt))
-        val textId =  intent.getStringExtra(applicationContext.getString(R.string.idInt))
+        val textId = intent.getStringExtra(applicationContext.getString(R.string.idInt))
 
         textView = findViewById(R.id.tv_re)
         textView1 = findViewById(R.id.tv_reg)
@@ -55,14 +54,15 @@ class PlayActivity : AppCompatActivity() {
 
         viewModel.getAllQuizes().observe(this) { quit ->
 
-            result = quit
+            if (quit.isNotEmpty() && quit != null) {
 
-            quit.forEach {
-
-                 textView4?.text = it.question
-                 textView?.text = it.correctAnswer
-                 textView1?.text = it.incorrectAnswers.toString()
-             }
+                result = quit
+                quit.forEach {
+                    textView4?.text = it.question
+                    textView?.text = it.correctAnswer
+                    textView1?.text = it.incorrectAnswers.toString()
+                }
+            }
         }
 
         var i = 1
@@ -72,12 +72,13 @@ class PlayActivity : AppCompatActivity() {
         button?.setOnClickListener {
 
 
+            val selection = raddio?.checkedRadioButtonId
+            if (selection != -1) {
+                val radioButton = selection?.let { it1 -> findViewById<View>(it1) } as RadioButton
 
-                val selection = raddio?.checkedRadioButtonId
-                if (selection != -1) {
-                    val radioButton = selection?.let { it1 -> findViewById<View>(it1) } as RadioButton
 
 
+                if (result?.size!! > 0 && result != null) {
 
                     result?.forEach { it1 ->
                         result.let {
@@ -88,15 +89,17 @@ class PlayActivity : AppCompatActivity() {
                                 totalQues = it.size
                                 if (radioButton.text.toString() == it1.correctAnswer) {
                                     radioGroup++
-                                    textView3?.text = getString(R.string.correct_ans)  + radioGroup
+                                    textView3?.text =
+                                        applicationContext.getString(R.string.correct_ans) + radioGroup
 
                                 }
-                                textView4?.text =  getString(R.string.Ques) + {i + 1}  +  it1.question
+                                textView4?.text =
+                                    applicationContext.getString(R.string.Ques) + { i + 1 } + it1.question
                                 textView?.text = it1.correctAnswer
-                                textView1?.text = it1?.incorrectAnswers.toString()
+                                textView1?.text = it1.incorrectAnswers.toString()
 
                                 if (i == it.size.minus(1)) {
-                                    button?.text = getString(R.string.finesh)
+                                    button?.text = applicationContext.getString(R.string.finesh)
                                 }
 
                                 raddio?.clearCheck()
@@ -106,23 +109,42 @@ class PlayActivity : AppCompatActivity() {
 
                                 if (radioButton.text.toString() == it[i - 1].correctAnswer) {
                                     radioGroup++
-                                    textView3?.text =getString(R.string.correct_ans) +radioGroup
+                                    textView3?.text =
+                                        applicationContext.getString(R.string.correct_ans) + radioGroup
                                 }
-                                val intent = Intent(this@PlayActivity, ResultActivity::class.java)
-                                intent.putExtra(applicationContext.getString(R.string.nameInt), textName)
-                                intent.putExtra(applicationContext.getString(R.string.idInt), textId)
-                                intent.putExtra(applicationContext.getString(R.string.totalInt), totalQues)
-                                intent.putExtra(applicationContext.getString(R.string.resultInt), radioGroup)
+                                val intent =
+                                    Intent(this@PlayActivity, ResultActivity::class.java)
+                                intent.putExtra(
+                                    applicationContext.getString(R.string.nameInt),
+                                    textName
+                                )
+                                intent.putExtra(
+                                    applicationContext.getString(R.string.idInt),
+                                    textId
+                                )
+                                intent.putExtra(
+                                    applicationContext.getString(R.string.totalInt),
+                                    totalQues
+                                )
+                                intent.putExtra(
+                                    applicationContext.getString(R.string.resultInt),
+                                    radioGroup
+                                )
                                 startActivity(intent)
                                 finish()
                             }
                         }
                     }
-
-                } else {
-                    Toast.makeText(this, applicationContext.getString(R.string.SelectAnswerInt), Toast.LENGTH_LONG).show()
-
                 }
+
+            } else {
+                Toast.makeText(
+                    this,
+                    applicationContext.getString(R.string.SelectAnswerInt),
+                    Toast.LENGTH_LONG
+                ).show()
+
+            }
         }
     }
 }

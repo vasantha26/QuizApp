@@ -118,8 +118,11 @@ class PlayActivity : AppCompatActivity() {
 
                             }
 
+
+                            val q1 = i + 1;
+
                             questionsText?.text =
-                                applicationContext.getString(R.string.Ques) + { i + 1 } + " : " + questionsList!![0].question
+                                applicationContext.getString(R.string.Ques) + " " +  q1  + " : " + questionsList!![0].question
 
 
 

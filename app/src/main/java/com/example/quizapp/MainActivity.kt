@@ -43,11 +43,17 @@ class MainActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this)[QuizViewModel::class.java]
 
 
-        val userName = editText?.text
-        val idName = editText1?.text
+
+
+
+
 
 
         button?.setOnClickListener {
+
+            val userName: String = editText?.text.toString()
+            val idName: String = editText1?.text.toString()
+
 
             makeRequest()
 
@@ -74,15 +80,17 @@ class MainActivity : AppCompatActivity() {
         GlobalScope.launch {
             api.getQuestions(
                 15,
-                9,
+                27,
                 applicationContext.getString(R.string.easy),
                 applicationContext.getString(R.string.b)
             ).enqueue(object :
                 Callback<QuizModel> {
                 override fun onResponse(call: Call<QuizModel>, response: Response<QuizModel>) {
-                    Log.d("TAG", "  response >>>  " + Gson().toJson(response))
+
                     if (response.isSuccessful) {
                         val questions = response.body()?.results?.map { question ->
+//                            Log.d("TAG" ," response question >>> " + Gson().toJson(question))
+
                             Result(
                                 category = question.category,
                                 type = question.type,
@@ -101,7 +109,6 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 override fun onFailure(call: Call<QuizModel>, t: Throwable) {
-                    Log.d("TAG", "  response >>>1  " + t.message)
                 }
             })
         }

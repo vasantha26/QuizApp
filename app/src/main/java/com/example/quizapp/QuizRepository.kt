@@ -11,13 +11,15 @@ import kotlinx.coroutines.launch
 class QuizRepository(application: Application) {
 
     private var questionDao: QuestionDao
-    private var quizResponse: LiveData<List<Result>>
     private val database: AppDatabase
+    private var quizResponseList: List<Result>
+
 
     init {
         database = AppDatabase.getInstance(application)
         questionDao = database.questionDao()
-        quizResponse = questionDao.getAllQuestions()
+        quizResponseList = questionDao.getAllQuestions()
+
     }
 
     @OptIn(DelicateCoroutinesApi::class)
@@ -28,9 +30,11 @@ class QuizRepository(application: Application) {
     }
 
 
-    fun getAllCats(): LiveData<List<Result>> {
-        return quizResponse
+    fun quizResponseListResult(): List<Result> {
+        return quizResponseList
     }
 
+
+    fun deleteList() = questionDao.deleteAll()
 
 }

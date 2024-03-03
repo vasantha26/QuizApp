@@ -11,28 +11,40 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class PlayActivity : AppCompatActivity() {
 
     private lateinit var viewModel: QuizViewModel
-    var result: List<Result>? = null
+    private var questionsList: List<Result>? = null
 
-    private var button: Button? = null
+    private var nextButton: Button? = null
 
     private var raddio: RadioGroup? = null
 
-    private var textView: RadioButton? = null
-    private var textView1: RadioButton? = null
-    private var textView4: TextView? = null
-    private var textView3: TextView? = null
+    private var trueButton: RadioButton? = null
+    private var falseButton: RadioButton? = null
+    private var questionsText: TextView? = null
+    private var resultText: TextView? = null
     private var textView5: TextView? = null
 
 
+    companion object {
+        var i = 1
+        var result = 0
+        var totalQues = 0
+
+    }
+
+    @OptIn(DelicateCoroutinesApi::class)
     @SuppressLint("MissingInflatedId")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.answer_items)
-        button = findViewById(R.id.bv_start_quiz)
+        nextButton = findViewById(R.id.bv_start_quiz)
 
 
         val intent = intent
@@ -40,10 +52,11 @@ class PlayActivity : AppCompatActivity() {
         val textName = intent.getStringExtra(applicationContext.getString(R.string.nameInt))
         val textId = intent.getStringExtra(applicationContext.getString(R.string.idInt))
 
-        textView = findViewById(R.id.tv_re)
-        textView1 = findViewById(R.id.tv_reg)
-        textView3 = findViewById(R.id.tv_name3)
-        textView4 = findViewById(R.id.tv_name2)
+
+        trueButton = findViewById(R.id.tv_re)
+        falseButton = findViewById(R.id.tv_reg)
+        resultText = findViewById(R.id.tv_name3)
+        questionsText = findViewById(R.id.tv_name2)
         textView5 = findViewById(R.id.quiz_timer)
         raddio = findViewById(R.id.radio)
 
@@ -52,91 +65,110 @@ class PlayActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this)[QuizViewModel::class.java]
 
 
-        viewModel.getAllQuizes().observe(this) { quit ->
 
-            if (quit.isNotEmpty() && quit != null) {
 
-                result = quit
-                quit.forEach {
-                    textView4?.text = it.question
-                    textView?.text = it.correctAnswer
-                    textView1?.text = it.incorrectAnswers.toString()
+
+
+
+        questionsList = viewModel.getAllQuizesResponse()
+        GlobalScope.launch {
+            if (questionsList != null) {
+                GlobalScope.launch(Dispatchers.Main) {
+                    questionsText?.text =
+                        applicationContext.getString(R.string.Ques) + 1 + questionsList!![0].question
+
+
+                    if (questionsList!![0].correctAnswer != null && questionsList!![0].incorrectAnswers.toString() != null){
+                        trueButton?.text = questionsList!![0].correctAnswer
+                        falseButton?.text = questionsList!![0].incorrectAnswers.toString()
+
+                    }else{
+                        trueButton?.text  =  applicationContext.getString(R.string.t)
+                        falseButton?.text = applicationContext.getString(R.string.f)
+
+
+                    }
+
+
                 }
             }
         }
 
-        var i = 1
-        var radioGroup = 0
-        var totalQues = 0
 
-        button?.setOnClickListener {
+
+
+
+        nextButton?.setOnClickListener {
 
 
             val selection = raddio?.checkedRadioButtonId
             if (selection != -1) {
                 val radioButton = selection?.let { it1 -> findViewById<View>(it1) } as RadioButton
 
+                questionsList.let {
 
+                    if (i < it?.size!!) {
+                        totalQues = it.size
 
-                if (result?.size!! > 0 && result != null) {
+                        if (radioButton.text.toString() == it[i - 1].correctAnswer) {
+                            result++
+                            resultText?.text =
+                                applicationContext.getString(R.string.correct_ans) + result
 
-                    result?.forEach { it1 ->
-                        result.let {
-
-                            if (i < it?.size!!) {
-
-
-                                totalQues = it.size
-                                if (radioButton.text.toString() == it1.correctAnswer) {
-                                    radioGroup++
-                                    textView3?.text =
-                                        applicationContext.getString(R.string.correct_ans) + radioGroup
-
-                                }
-                                textView4?.text =
-                                    applicationContext.getString(R.string.Ques) + { i + 1 } + it1.question
-                                textView?.text = it1.correctAnswer
-                                textView1?.text = it1.incorrectAnswers.toString()
-
-                                if (i == it.size.minus(1)) {
-                                    button?.text = applicationContext.getString(R.string.finesh)
-                                }
-
-                                raddio?.clearCheck()
-                                i++
-
-                            } else {
-
-                                if (radioButton.text.toString() == it[i - 1].correctAnswer) {
-                                    radioGroup++
-                                    textView3?.text =
-                                        applicationContext.getString(R.string.correct_ans) + radioGroup
-                                }
-                                val intent =
-                                    Intent(this@PlayActivity, ResultActivity::class.java)
-                                intent.putExtra(
-                                    applicationContext.getString(R.string.nameInt),
-                                    textName
-                                )
-                                intent.putExtra(
-                                    applicationContext.getString(R.string.idInt),
-                                    textId
-                                )
-                                intent.putExtra(
-                                    applicationContext.getString(R.string.totalInt),
-                                    totalQues
-                                )
-                                intent.putExtra(
-                                    applicationContext.getString(R.string.resultInt),
-                                    radioGroup
-                                )
-                                startActivity(intent)
-                                finish()
-                            }
                         }
+
+                        questionsText?.text = applicationContext.getString(R.string.Ques) + { i + 1 } + questionsList!![0].question
+
+
+
+
+                        if (questionsList!![0].correctAnswer != null && questionsList!![0].incorrectAnswers.toString() != null){
+                            trueButton?.text = questionsList!![0].correctAnswer
+                            falseButton?.text = questionsList!![0].incorrectAnswers.toString()
+                        }else {
+                            trueButton?.text = applicationContext.getString(R.string.t)
+                            falseButton?.text = applicationContext.getString(R.string.f)
+
+                        }
+
+
+                        if (i == it.size.minus(1)) {
+                            nextButton?.text = applicationContext.getString(R.string.finesh)
+                        }
+
+                        raddio?.clearCheck()
+                        i++
+
+                    } else {
+
+                        if (radioButton.text.toString() == it[i - 1].correctAnswer) {
+                            result++
+                            resultText?.text =
+                                applicationContext.getString(R.string.correct_ans) + result
+                        }
+
+                        val intent =
+                            Intent(this@PlayActivity, ResultActivity::class.java)
+                        intent.putExtra(
+                            applicationContext.getString(R.string.nameInt),
+                            textName
+                        )
+                        intent.putExtra(
+                            applicationContext.getString(R.string.idInt),
+                            textId
+                        )
+                        intent.putExtra(
+                            applicationContext.getString(R.string.totalInt),
+                            totalQues
+                        )
+                        intent.putExtra(
+                            applicationContext.getString(R.string.resultInt),
+                            result
+                        )
+                        startActivity(intent)
+                        finish()
                     }
                 }
-
             } else {
                 Toast.makeText(
                     this,

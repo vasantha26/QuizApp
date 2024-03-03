@@ -11,8 +11,13 @@ import androidx.room.Query
 interface QuestionDao {
 
     @Query("SELECT * FROM question_table")
-    fun getAllQuestions(): LiveData<List<Result>>
+    fun getAllQuestions(): List<Result>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertQuestions(questions: List<Result>)
+
+    @Query("DELETE FROM question_table")
+    fun deleteAll()
+
+
 }

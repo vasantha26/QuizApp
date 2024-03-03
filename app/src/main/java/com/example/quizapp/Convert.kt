@@ -6,9 +6,12 @@ import com.google.gson.Gson
 class Converters {
 
     @TypeConverter
-    fun listToJsonString(value: List<String>?): String? = Gson().toJson(value)
+    fun fromString(value: String?): List<String>? {
+        return value?.split(",")
+    }
 
     @TypeConverter
-    fun jsonStringToList(value: String?) =
-        Gson().fromJson(value, Array<String>::class.java).toList()
+    fun fromList(list: List<String>?): String? {
+        return list?.joinToString(separator = ",")
+    }
 }

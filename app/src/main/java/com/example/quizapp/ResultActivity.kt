@@ -5,8 +5,11 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
+import androidx.lifecycle.ViewModelProvider
 
 class ResultActivity : AppCompatActivity() {
+
+    private lateinit var viewModel: QuizViewModel
 
     private var button: Button? = null
 
@@ -25,6 +28,8 @@ class ResultActivity : AppCompatActivity() {
         textView1 = findViewById(R.id.tvNameResult1)
         textView2 = findViewById(R.id.tvNameResult2)
 
+        viewModel = ViewModelProvider(this)[QuizViewModel::class.java]
+
 
         val intent = intent
 
@@ -41,6 +46,7 @@ class ResultActivity : AppCompatActivity() {
 
 
         button?.setOnClickListener {
+            viewModel.deleteQuizList()
             val intent = Intent(this@ResultActivity, MainActivity::class.java)
             startActivity(intent)
             finish()

@@ -8,15 +8,18 @@ import androidx.lifecycle.LiveData
 class QuizViewModel(application: Application) : AndroidViewModel(application) {
 
     private val repository: QuizRepository
-    private var questionEntity: LiveData<List<Result>>
+    private var quizResponseList: List<Result>
 
     init {
         repository = QuizRepository(application)
-        questionEntity = repository.getAllCats()
+        quizResponseList = repository.quizResponseListResult()
     }
 
 
-    fun getAllQuizes(): LiveData<List<Result>> {
-        return questionEntity
+    fun getAllQuizesResponse(): List<Result> {
+        return quizResponseList
     }
+
+
+    fun deleteQuizList() = repository.deleteList()
 }

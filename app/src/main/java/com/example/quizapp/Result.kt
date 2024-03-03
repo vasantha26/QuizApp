@@ -10,12 +10,17 @@ import androidx.room.TypeConverters
 data class Result(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,
-    var type: String? = null,
-    var difficulty: String? = null,
-    var category: String? = null,
-    var question: String? = null,
-    var correctAnswer: String? = null,
-    @ColumnInfo(name = "incorrectAnswers")
+    @ColumnInfo(name = "type")
+    var type: String?,
+    @ColumnInfo(name = "difficulty")
+    var difficulty: String?,
+    @ColumnInfo(name = "category")
+    var category: String?,
+    @ColumnInfo(name = "question")
+    var question: String?,
+    @ColumnInfo(name = "correct_answer")
+    var correctAnswer: String?,
+    @ColumnInfo(name = "incorrect_answers")
     @field:TypeConverters(Converters::class)
-    var incorrectAnswers: List<String>? = null
+    val incorrectAnswers: List<String>?
 )

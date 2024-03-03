@@ -33,7 +33,6 @@ class PlayActivity : AppCompatActivity() {
 
 
     companion object {
-        var i = 1
         var result = 0
         var totalQues = 0
 
@@ -72,10 +71,10 @@ class PlayActivity : AppCompatActivity() {
 
         questionsList = viewModel.getAllQuizesResponse()
         GlobalScope.launch {
-            if (questionsList != null) {
+            if (questionsList != null && questionsList?.isNotEmpty() == true) {
                 GlobalScope.launch(Dispatchers.Main) {
                     questionsText?.text =
-                        applicationContext.getString(R.string.Ques) + 1 + questionsList!![0].question
+                        applicationContext.getString(R.string.Ques) + 1  + " : "  +  questionsList!![0].question
 
 
                     if (questionsList!![0].correctAnswer != null && questionsList!![0].incorrectAnswers.toString() != null){
@@ -96,7 +95,7 @@ class PlayActivity : AppCompatActivity() {
 
 
 
-
+        var i = 1
 
         nextButton?.setOnClickListener {
 
@@ -105,68 +104,73 @@ class PlayActivity : AppCompatActivity() {
             if (selection != -1) {
                 val radioButton = selection?.let { it1 -> findViewById<View>(it1) } as RadioButton
 
-                questionsList.let {
+                if (questionsList?.isNotEmpty() == true) {
+                    questionsList.let {
 
-                    if (i < it?.size!!) {
-                        totalQues = it.size
 
-                        if (radioButton.text.toString() == it[i - 1].correctAnswer) {
-                            result++
-                            resultText?.text =
-                                applicationContext.getString(R.string.correct_ans) + result
+                        if (i < it?.size!!) {
+                            totalQues = it.size
 
+                            if (radioButton.text.toString() == it[i - 1].correctAnswer) {
+                                result++
+                                resultText?.text =
+                                    applicationContext.getString(R.string.correct_ans) + result
+
+                            }
+
+                            questionsText?.text =
+                                applicationContext.getString(R.string.Ques) + { i + 1 } + " : " + questionsList!![0].question
+
+
+
+
+                            if (questionsList!![0].correctAnswer != null && questionsList!![0].incorrectAnswers.toString() != null) {
+                                trueButton?.text = questionsList!![0].correctAnswer
+                                falseButton?.text = questionsList!![0].incorrectAnswers.toString()
+                            } else {
+                                trueButton?.text = applicationContext.getString(R.string.t)
+                                falseButton?.text = applicationContext.getString(R.string.f)
+
+                            }
+
+
+                            if (i == it.size.minus(1)) {
+                                nextButton?.text = applicationContext.getString(R.string.finesh)
+                            }
+
+                            raddio?.clearCheck()
+                            i++
+
+                        } else {
+
+
+                            if (radioButton.text.toString() == it[i - 1].correctAnswer) {
+                                result++
+                                resultText?.text =
+                                    applicationContext.getString(R.string.correct_ans) + result
+                            }
+
+                            val intent =
+                                Intent(this@PlayActivity, ResultActivity::class.java)
+                            intent.putExtra(
+                                applicationContext.getString(R.string.nameInt),
+                                textName
+                            )
+                            intent.putExtra(
+                                applicationContext.getString(R.string.idInt),
+                                textId
+                            )
+                            intent.putExtra(
+                                applicationContext.getString(R.string.totalInt),
+                                totalQues
+                            )
+                            intent.putExtra(
+                                applicationContext.getString(R.string.resultInt),
+                                result
+                            )
+                            startActivity(intent)
+                            finish()
                         }
-
-                        questionsText?.text = applicationContext.getString(R.string.Ques) + { i + 1 } + questionsList!![0].question
-
-
-
-
-                        if (questionsList!![0].correctAnswer != null && questionsList!![0].incorrectAnswers.toString() != null){
-                            trueButton?.text = questionsList!![0].correctAnswer
-                            falseButton?.text = questionsList!![0].incorrectAnswers.toString()
-                        }else {
-                            trueButton?.text = applicationContext.getString(R.string.t)
-                            falseButton?.text = applicationContext.getString(R.string.f)
-
-                        }
-
-
-                        if (i == it.size.minus(1)) {
-                            nextButton?.text = applicationContext.getString(R.string.finesh)
-                        }
-
-                        raddio?.clearCheck()
-                        i++
-
-                    } else {
-
-                        if (radioButton.text.toString() == it[i - 1].correctAnswer) {
-                            result++
-                            resultText?.text =
-                                applicationContext.getString(R.string.correct_ans) + result
-                        }
-
-                        val intent =
-                            Intent(this@PlayActivity, ResultActivity::class.java)
-                        intent.putExtra(
-                            applicationContext.getString(R.string.nameInt),
-                            textName
-                        )
-                        intent.putExtra(
-                            applicationContext.getString(R.string.idInt),
-                            textId
-                        )
-                        intent.putExtra(
-                            applicationContext.getString(R.string.totalInt),
-                            totalQues
-                        )
-                        intent.putExtra(
-                            applicationContext.getString(R.string.resultInt),
-                            result
-                        )
-                        startActivity(intent)
-                        finish()
                     }
                 }
             } else {

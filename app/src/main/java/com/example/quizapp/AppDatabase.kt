@@ -9,12 +9,12 @@ import androidx.sqlite.db.SupportSQLiteDatabase
 import kotlin.concurrent.Volatile
 
 
-@Database(entities = [Result::class], version = 5)
+@Database(entities = [Result::class], version = 6)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun questionDao(): QuestionDao
 
     companion object {
-        private const val DATABASE_NAME = "Cat"
+        private const val DATABASE_NAME = "Quiz_Table"
 
         @Volatile
         private var INSTANCE: AppDatabase? = null

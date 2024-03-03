@@ -3,6 +3,8 @@ package com.example.quizapp
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.text.TextUtils
 import android.util.Log
 import android.widget.Button
@@ -60,11 +62,13 @@ class MainActivity : AppCompatActivity() {
             if (TextUtils.isEmpty(userName) && TextUtils.isEmpty(idName)) {
                 return@setOnClickListener
             } else if (!TextUtils.isEmpty(userName) && !TextUtils.isEmpty(idName)) {
+                Handler(Looper.getMainLooper()).postDelayed({
+                    val intent = Intent(this@MainActivity, PlayActivity::class.java);
+                    intent.putExtra(applicationContext.getString(R.string.nameInt), userName)
+                    intent.putExtra(applicationContext.getString(R.string.idInt), idName)
+                    startActivity(intent)
+                },300)
 
-                val intent = Intent(this@MainActivity, PlayActivity::class.java);
-                intent.putExtra(applicationContext.getString(R.string.nameInt), userName)
-                intent.putExtra(applicationContext.getString(R.string.idInt), idName)
-                startActivity(intent)
             }
         }
     }

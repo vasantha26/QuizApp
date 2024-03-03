@@ -42,7 +42,7 @@
         android:layout_width="371dp"
         android:layout_height="55dp"
         android:layout_marginTop="88dp"
-        android:text="@string/quot_27_club_quot_is_a_term_used_to_refer_to_a_list_of_famous_actors_musicians_and_artists_who_died_at_the_age_of_27"
+        android:text=""
         android:textColor="@color/black"
         android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
